@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-06-17T13:06:30.126404Z",
+  "files": [
+    "competitor_pricing.csv",
+    "hn_signal.csv",
+    "reddit_signal.csv"
+  ],
+  "notes": "Use these raw tables as reproducible demand evidence inputs in the final report."
+}

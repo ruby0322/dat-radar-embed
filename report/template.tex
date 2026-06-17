@@ -1,0 +1,217 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{titling}
+\usepackage{calc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{fvextra}
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+
+% Chinese font support
+\usepackage{fontspec}
+\usepackage{xeCJK}
+
+% Set Chinese fonts with better compatibility
+% Try to use system fonts with fallback options
+\IfFontExistsTF{Noto Sans CJK TC}{
+  \setCJKmainfont{Noto Sans CJK TC}
+}{
+  \IfFontExistsTF{Microsoft JhengHei}{
+    \setCJKmainfont{Microsoft JhengHei}
+  }{
+    \IfFontExistsTF{PingFang TC}{
+      \setCJKmainfont{PingFang TC}
+    }{
+      \IfFontExistsTF{Hiragino Sans GB}{
+        \setCJKmainfont{Hiragino Sans GB}
+      }{
+        \IfFontExistsTF{SimSun}{
+          \setCJKmainfont{SimSun}
+        }{
+          % Last resort - use any available CJK font
+          \setCJKmainfont{STSong}
+        }
+      }
+    }
+  }
+}
+
+% Set sans serif font
+\IfFontExistsTF{Noto Sans CJK TC}{
+  \setCJKsansfont{Noto Sans CJK TC}
+}{
+  \IfFontExistsTF{Microsoft JhengHei}{
+    \setCJKsansfont{Microsoft JhengHei}
+  }{
+    \IfFontExistsTF{PingFang TC}{
+      \setCJKsansfont{PingFang TC}
+    }{
+      \setCJKsansfont{STHeiti}
+    }
+  }
+}
+
+% Set monospace font
+\IfFontExistsTF{Noto Sans Mono CJK TC}{
+  \setCJKmonofont{Noto Sans Mono CJK TC}
+}{
+  \IfFontExistsTF{Microsoft JhengHei}{
+    \setCJKmonofont{Microsoft JhengHei}
+  }{
+    \setCJKmonofont{STFangsong}
+  }
+}
+
+% Set punctuation style for Traditional Chinese
+\xeCJKsetup{
+  PunctStyle = kaiming,
+  CheckSingle = true,
+  CJKecglue = {\hskip 0.25em plus 0.08em minus 0.05em},
+  CJKglue = {\hskip 0pt plus 0.08em}
+}
+
+% Image settings - resize all images to 80% width and center them
+\setkeys{Gin}{width=0.75\textwidth}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=0.75\textwidth,height=\maxheight,keepaspectratio}
+
+% Force images to appear exactly where they are placed (no floating)
+\usepackage{float}
+\floatplacement{figure}{H}
+\makeatletter
+\def\fps@figure{H}
+\def\ftype@figure{1}
+\makeatother
+
+% Redefine includegraphics to always use [H] positioning and center images
+\let\oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{%
+  \begin{figure}[H]
+    \centering
+    \oldincludegraphics[#1]{#2}
+  \end{figure}
+}
+
+% Basic table packages for pandoc support
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{caption}
+
+% Table settings
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.3}
+
+% Caption settings
+\captionsetup[table]{
+    position=top,
+    justification=centering,
+    font=bf,
+    skip=10pt
+}
+
+% Figure caption settings - ensure they appear with images
+\captionsetup[figure]{
+    position=bottom,
+    justification=centering,
+    font=bf,
+    skip=10pt
+}
+
+% Custom column widths for stakeholder table
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% Hyperlink styling
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+    citecolor=black,
+    pdfborderstyle={/S/U/W 1}
+}
+
+% Title page styling
+\pretitle{\begin{center}\LARGE\bfseries}
+\posttitle{\end{center}\vskip 0.5em}
+\preauthor{\begin{center}\large}
+\postauthor{\end{center}}
+\predate{\begin{center}\large}
+\postdate{\end{center}\vskip 2em}
+
+% Set title, author, and date from variables
+\title{$title$}
+\author{$author$}
+\date{$date$}
+
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\titleformat{\section}
+{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+% Table borders and custom column widths
+\providecommand{\toprule}{\hline}
+\providecommand{\midrule}{\hline}
+\providecommand{\bottomrule}{\hline}
+
+% Set default table borders to show all borders
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\toprule}{\hline}
+\renewcommand{\midrule}{\hline}
+\renewcommand{\bottomrule}{\hline}
+
+% Redefine longtable column specifications for better width distribution
+\usepackage{etoolbox}
+\AtBeginEnvironment{longtable}{%
+  \small
+  \setlength{\LTleft}{0pt}
+  \setlength{\LTright}{0pt}
+}
+
+% Disable all floating for figures to ensure they stay in place
+\makeatletter
+\renewenvironment{figure}[1][H]{%
+  \def\@captype{figure}%
+  \par\centering
+}{%
+  \par
+}
+\makeatother
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\tableofcontents
+\newpage
+\setcounter{page}{4}
+
+$body$
+\end{document} 
