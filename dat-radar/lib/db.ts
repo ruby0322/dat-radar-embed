@@ -1,6 +1,8 @@
+import path from "node:path";
 import Database from "better-sqlite3";
 
-const dbPath = process.env.DB_PATH ?? "../data/dat_radar.db";
+const dbPath =
+  process.env.DB_PATH ?? path.resolve(process.cwd(), "../data/dat_radar.db");
 
 let db: Database.Database | null = null;
 

@@ -64,3 +64,14 @@ python3 scripts/collect_demand_evidence.py
 ```
 
 Raw outputs are written into `docs/demand-evidence/raw/`.
+
+## Report figures (screenshots + diagram)
+
+With the dev server running:
+
+```bash
+./scripts/capture_report_assets.sh
+cd report && ./convert-to-pdf.sh report.md r14725076.pdf
+```
+
+Uses headless Chrome (no Playwright download) to capture dashboard, demo, and embed pages.

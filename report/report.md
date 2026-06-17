@@ -7,11 +7,37 @@ lang: en-US
 
 # GitHub Repository and Demo
 
-- GitHub: `https://github.com/<your-account>/dat-radar-embed`
+- GitHub: https://github.com/ruby0322/dat-radar-embed
 - Live app: `https://<your-vercel-domain>/`
 - Embed demo: `https://<your-vercel-domain>/demo`
 
-# 1) Target Customer
+# System Overview
+
+![DAT Radar dashboard](./assets/dashboard-cover.jpeg)
+
+DAT Radar extends the HW2 mNAV dashboard into a **B2B data product**. Partners can consume the same treasury analytics through a JSON API or embed a lightweight iframe chart in their own apps and media pages.
+
+## Dashboard and charts
+
+![mNAV and BTC charts](./assets/dashboard-charts.jpeg)
+
+- **mNAV time series** with a 30-day rolling mean, a ±1 standard deviation band, and a horizontal reference at **1×**
+- **BTC spot (USD)** on the same calendar axis for side-by-side comparison
+- **Disclosure markers** on dates when new 8-K–based BTC holdings are applied
+
+## KPIs and controls
+
+![KPI tiles](./assets/dashboard-kpi.jpeg)
+
+![Date range controls](./assets/dashboard-controls.jpeg)
+
+## AI insight
+
+![AI insight panel](./assets/dashboard-ai-insight.jpeg)
+
+The operator dashboard also supports optional narrative insight generated from pre-computed statistics when `OPENAI_API_KEY` is configured.
+
+# Target Customer
 
 DAT Radar targets **small-to-mid crypto product teams** (3 to 20 people), especially:
 
@@ -27,9 +53,9 @@ Their current workaround is usually one of:
 
 DAT Radar is a better wedge because it removes the highest-friction engineering task: robust SEC holdings extraction and mNAV calculation.
 
-# 2) Evidence of Demand and Willingness to Pay
+# Evidence of Demand and Willingness to Pay
 
-## 2.1 Evidence collection process
+## Evidence collection process
 
 To avoid speculative claims, we created reproducible scripts and raw artifacts:
 
@@ -43,13 +69,13 @@ Methodology is documented in:
 - `docs/demand-evidence/methodology.md`
 - `docs/demand-evidence/competitor-pricing.md`
 
-## 2.2 Key evidence
+## Key evidence
 
 1. **Competitor pricing anchors exist** for both API and insight products (e.g., Finnhub, Messari, TradingView widgets).
 2. **Community signal exists** around Bitcoin treasury and MSTR valuation topics.
 3. **Operational pain is concrete**: maintaining SEC parsers is brittle and costly.
 
-## 2.3 Willingness-to-pay estimate
+## Willingness-to-pay estimate
 
 If maintaining an in-house parser takes roughly 40 to 80 engineer-hours over a quarter, a subscription around $99/month can be economically justified for teams that ship treasury-focused content or dashboards.
 
@@ -59,15 +85,15 @@ Proposed tiers:
 - Pro: $99/mo, up to five tickers, higher limits, optional watermark removal
 - Enterprise: custom SLA, bulk historical exports
 
-# 3) Technical System Design
+# Technical System Design
 
-## 3.1 Data sources
+## Data sources
 
 - Yahoo Finance for MSTR and BTC-USD daily prices
 - SEC EDGAR 8-K filings for BTC holdings disclosures
 - Local static holdings baseline for robust fallback
 
-## 3.2 Ingestion and storage
+## Ingestion and storage
 
 - Python ETL pipeline (`pipeline/`) runs:
   - `ingest_prices.py`
@@ -77,7 +103,7 @@ Proposed tiers:
 - Relational storage in SQLite/PostgreSQL schema (`storage/schema.sql`)
 - Parquet archives for reproducible data artifacts
 
-## 3.3 Processing
+## Processing
 
 For each trading day:
 
@@ -88,14 +114,16 @@ For each trading day:
 
 A map-reduce style analytics script computes cross-series correlation metrics in parallel using Python multiprocessing.
 
-## 3.4 Delivery
+## Delivery
 
 - Dashboard endpoint: `/api/market-data` (DB-first, live fallback)
 - B2B API endpoint: `/api/v1/mnav/[ticker]` with API key
 - Embed endpoint: `/embed/[ticker]` (iframe-ready)
 - Integration demo: `/demo`
 
-## 3.5 Architecture diagram
+## Architecture diagram
+
+![DAT Radar architecture](./assets/architecture.png)
 
 The end-to-end architecture follows four stages:
 
@@ -104,9 +132,21 @@ The end-to-end architecture follows four stages:
 3. **Storage:** SQLite/PostgreSQL for serving + Parquet archives for reproducibility
 4. **Delivery:** REST API (`/api/v1/mnav`), embed iframe (`/embed/MSTR`), and partner demo page (`/demo`)
 
-A full mermaid diagram is maintained in `docs/architecture.md` in the repository.
+A machine-readable mermaid version is maintained in `docs/architecture.md`.
 
-# Bonus) Go-to-Market Difficulties
+## Partner integration demo
+
+![Partner integration demo](./assets/demo.png)
+
+The `/demo` page documents how partners integrate DAT Radar with a copy-paste iframe snippet and a sample `fetch()` call against the versioned API (`X-API-Key` header).
+
+## Embeddable widget
+
+![Embeddable mNAV widget](./assets/embed.png)
+
+The embed route renders a compact mNAV chart suitable for third-party pages. Free-tier partners see a "Powered by DAT Radar" watermark; API keys enforce per-minute rate limits.
+
+# Go-to-Market Difficulties
 
 1. **Trust and adoption**: teams must trust accuracy of parsed holdings.
 2. **Data-source policy risk**: external API changes can break ingestion.

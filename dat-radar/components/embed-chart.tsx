@@ -27,8 +27,8 @@ export default function EmbedChart({ rows, theme, showWatermark = true }: Props)
         backgroundColor: theme === "dark" ? "#0f172a" : "#ffffff",
       }}
     >
-      <div className="h-[240px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="w-full" style={{ minWidth: 0, height: 240 }}>
+        <ResponsiveContainer width="100%" height={240} minWidth={0}>
           <LineChart data={rows}>
             <CartesianGrid strokeDasharray="3 3" stroke={theme === "dark" ? "#1e293b" : "#e5e7eb"} />
             <XAxis dataKey="date" minTickGap={32} stroke={theme === "dark" ? "#94a3b8" : "#64748b"} />

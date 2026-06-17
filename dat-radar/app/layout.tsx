@@ -24,8 +24,9 @@ export default async function RootLayout({
 }: LayoutProps<"/">) {
   await params;
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
         style={{ backgroundColor: "var(--bg)", color: "var(--text-primary)" }}
       >
