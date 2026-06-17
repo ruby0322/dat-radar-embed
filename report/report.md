@@ -8,8 +8,8 @@ lang: en-US
 # GitHub Repository and Demo
 
 - GitHub: https://github.com/ruby0322/dat-radar-embed
-- Live app: `https://<your-vercel-domain>/`
-- Embed demo: `https://<your-vercel-domain>/demo`
+- Live app: https://dat-radar-embed.vercel.app/
+- Embed demo: https://dat-radar-embed.vercel.app/demo
 
 # System Overview
 
