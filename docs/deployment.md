@@ -14,7 +14,7 @@ Deploy `dat-radar/` as the project root and set environment variables:
 
 - `DEMO_API_KEY=demo-dat-radar-key` (required on Vercel when SQLite is unavailable)
 - `OPENAI_API_KEY` (optional AI narrative)
-- `NEXT_PUBLIC_BASE_URL` (optional; defaults to `https://<VERCEL_URL>` on Vercel)
+- `NEXT_PUBLIC_BASE_URL` (optional; defaults to the request host on Vercel, e.g. `https://dat-radar-embed.vercel.app`)
 - `DB_PATH` (local SQLite only; production uses live Yahoo/EDGAR fallback when DB is absent)
 
 ## 3. Schedule ETL
