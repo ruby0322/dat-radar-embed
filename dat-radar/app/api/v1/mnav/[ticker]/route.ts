@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validateApiKey } from "@/lib/auth-api-key";
-import { loadMnavRowsFromDb, computeKpiFromRows } from "@/lib/mnav-data";
+import { computeKpiFromRows, loadMnavRows } from "@/lib/mnav-data";
 import type { ApiV1MnavResponse, DateRange } from "@/types";
 
 export async function GET(
@@ -23,12 +23,9 @@ export async function GET(
       ? (rangeParam as DateRange)
       : "1y";
 
-    const rows = loadMnavRowsFromDb(symbol, range);
+    const { rows, source } = await loadMnavRows(symbol, range);
     if (rows.length === 0) {
-      return NextResponse.json(
-        { error: "No data found. Run pipeline/run_etl.sh first." },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "No data found for ticker" }, { status: 404 });
     }
 
     const body: ApiV1MnavResponse = {
@@ -36,11 +33,11 @@ export async function GET(
       range,
       rows,
       kpi: computeKpiFromRows(rows),
-      source: "database",
+      source,
     };
 
     return NextResponse.json(body, {
-      headers: { "Cache-Control": "no-store" },
+      headers: { "Cache-Control": "no-store", "X-DAT-Radar-Source": source },
     });
   } catch (err) {
     return NextResponse.json(

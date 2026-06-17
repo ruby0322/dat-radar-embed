@@ -1,7 +1,10 @@
-export default function DemoPage() {
+import { getBaseUrl } from "@/lib/get-base-url";
+
+export default async function DemoPage() {
+  const baseUrl = await getBaseUrl();
   const demoApiKey = process.env.DEMO_API_KEY ?? "demo-dat-radar-key";
-  const iframeCode = `<iframe src="${process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"}/embed/MSTR?range=1y&theme=dark" width="100%" height="320" style="border:0;" title="DAT Radar Embed"></iframe>`;
-  const fetchCode = `fetch("${process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"}/api/v1/mnav/MSTR?range=90d", {\n  headers: { "X-API-Key": "${demoApiKey}" }\n}).then((r) => r.json()).then(console.log);`;
+  const iframeCode = `<iframe src="${baseUrl}/embed/MSTR?range=1y&theme=dark" width="100%" height="320" style="border:0;" title="DAT Radar Embed"></iframe>`;
+  const fetchCode = `fetch("${baseUrl}/api/v1/mnav/MSTR?range=90d", {\n  headers: { "X-API-Key": "${demoApiKey}" }\n}).then((r) => r.json()).then(console.log);`;
 
   return (
     <main className="mx-auto max-w-4xl p-6">

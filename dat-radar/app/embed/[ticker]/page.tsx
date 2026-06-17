@@ -1,5 +1,5 @@
 import EmbedChart from "@/components/embed-chart";
-import { loadMnavRowsFromDb } from "@/lib/mnav-data";
+import { loadMnavRows } from "@/lib/mnav-data";
 import type { DateRange } from "@/types";
 
 type EmbedPageProps = {
@@ -21,7 +21,7 @@ export default async function EmbedPage({ params, searchParams }: EmbedPageProps
   const theme = query.theme === "light" ? "light" : "dark";
   const showWatermark = query.showWatermark !== "false";
   const symbol = ticker.toUpperCase();
-  const rows = loadMnavRowsFromDb(symbol, range);
+  const { rows } = await loadMnavRows(symbol, range);
 
   return (
     <main className="mx-auto max-w-4xl p-4">

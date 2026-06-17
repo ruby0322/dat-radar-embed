@@ -12,10 +12,10 @@ For local/demo, SQLite (`data/dat_radar.db`) remains supported.
 
 Deploy `dat-radar/` as the project root and set environment variables:
 
-- `DB_PATH` (for SQLite demo) or migrate `lib/db.ts` to PostgreSQL DSN mode
+- `DEMO_API_KEY=demo-dat-radar-key` (required on Vercel when SQLite is unavailable)
 - `OPENAI_API_KEY` (optional AI narrative)
-- `DEMO_API_KEY` (default demo key fallback exists)
-- `NEXT_PUBLIC_BASE_URL` (for demo snippets)
+- `NEXT_PUBLIC_BASE_URL` (optional; defaults to `https://<VERCEL_URL>` on Vercel)
+- `DB_PATH` (local SQLite only; production uses live Yahoo/EDGAR fallback when DB is absent)
 
 ## 3. Schedule ETL
 
